@@ -1,0 +1,65 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
+export default function BrandForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    capacity: "",
+    certification: "",
+    price: "",
+    description: "",
+    image: null,
+  });
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("제출된 정보:", formData);
+    alert("브랜드 정보가 제출되었습니다.");
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto p-4">
+      <Card className="rounded-2xl shadow-xl p-6">
+        <h2 className="text-2xl font-bold mb-4">화장품 브랜드 정보 등록</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block font-medium mb-1">화장품 이름</label>
+            <Input name="name" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">용량 (예: 50ml)</label>
+            <Input name="capacity" value={formData.capacity} onChange={handleChange} required />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">인증 정보</label>
+            <Input name="certification" value={formData.certification} onChange={handleChange} />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">가격 (원화 또는 달러)</label>
+            <Input name="price" value={formData.price} onChange={handleChange} required />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">상세 설명</label>
+            <Textarea name="description" value={formData.description} onChange={handleChange} />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">제품 이미지</label>
+            <Input type="file" name="image" accept="image/*" onChange={handleChange} />
+          </div>
+          <Button type="submit" className="w-full">제출하기</Button>
+        </form>
+      </Card>
+    </div>
+  );
+}
